@@ -1,4 +1,4 @@
-postgres:
+mysql:
   database: test_db
   user: root
   password: test_password

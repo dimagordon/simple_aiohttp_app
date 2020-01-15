@@ -2,7 +2,8 @@ import pathlib
 import yaml
 
 BASE_DIR = pathlib.Path(__file__).parent.parent
-config_path = BASE_DIR / 'config' / 'settings.yaml'
+CONFIG_PATH = BASE_DIR / 'config' / 'settings.yaml'
+TEMPLATES_DIR = str(BASE_DIR / 'templates')
 
 
 def get_config(path):
@@ -11,4 +12,4 @@ def get_config(path):
     return config
 
 
-config = get_config(config_path)
+config = get_config(CONFIG_PATH)

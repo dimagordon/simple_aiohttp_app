@@ -1,4 +1,6 @@
 from aiohttp import web
+import aiohttp_jinja2
+import jinja2
 
 from .db import create_db
 from . import settings, routes
@@ -19,7 +21,7 @@ def init_app(*args, **kwargs):
     app = web.Application()
     app['config'] = settings.config
     routes.setup(app)
-
+    aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(settings.TEMPLATES_DIR))
     app.on_startup.append(on_startup)
     app.on_cleanup.append(close_db)
 

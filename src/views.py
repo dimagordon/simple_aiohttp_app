@@ -15,7 +15,6 @@ class RecordHandler:
         self.usecase = record_usecase
 
     async def submit_data(self, request):
-        # mb this 2 types of exception need to move to middleware
         try:
             data = user_record_schema.load(await request.json())
         except JSONDecodeError:
@@ -25,5 +24,6 @@ class RecordHandler:
 
         # ensure that data will be saved even if client close connection.
         await asyncio.shield(self.usecase.create(data))
+        # but it will be more clear if add sleep inside shield
         await asyncio.sleep(10)
         return web.json_response(status=HTTPStatus.CREATED)

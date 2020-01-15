@@ -17,5 +17,3 @@ def setup(app: web.Application):
 
     if settings.DEBUG:
         setup_cors(app)
-
-

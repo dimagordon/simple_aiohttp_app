@@ -14,5 +14,5 @@ class UserRecordUsecase:
             # I was trying to return id but I failed.
             # get sqlalchemy.exc.CompileError: RETURNING is not supported by this dialect's statement compiler
             # need to research more
-            result = await conn.execute(self.record_model.insert().values(**data))
+            await conn.execute(self.record_model.insert().values(**data))
             await conn.execute('commit')

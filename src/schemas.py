@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields, validate, EXCLUDE
 
-from .db import RECORD_NAME_MAX_LENGTH
+from . import db
 
 
 class TrimmedString(fields.String):
@@ -11,8 +11,9 @@ class TrimmedString(fields.String):
 
 
 class UserRecordSchema(Schema):
-    name = TrimmedString(required=True, validate=validate.Length(max=RECORD_NAME_MAX_LENGTH))
+    name = TrimmedString(required=True, validate=validate.Length(max=db.RECORD_NAME_MAX_LENGTH))
     age = fields.Integer(required=True)
+    city = TrimmedString(required=True, validate=validate.Length(max=db.RECORD_CITY_MAX_LENGTH))
 
 
 user_record_schema = UserRecordSchema(unknown=EXCLUDE)

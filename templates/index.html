@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Record Terminal</title>
+</head>
+
+<body>
+    <div class='container'>
+        <form id='recordForm'>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input required type="text" class="form-control" id="name">
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input required type="text" class="form-control" id="age">
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input required type="text" class="form-control" id="city">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    
+    <script>
+        const recordForm = document.getElementById('recordForm')
+        recordForm.addEventListener('submit', function(event) {
+            event.preventDefault()
+            const nameInput = document.getElementById('name').value
+            const ageInput = document.getElementById('age').value
+            const cityInput = document.getElementById('city').value
+
+            const data = {
+                name: nameInput,
+                age: ageInput,
+                city: cityInput
+            }
+
+            const url = 'http://localhost:8080/api/v1/submit-record/'
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            }
+            fetch(url, options)
+                .then((response) => {
+                    if (response.ok) {
+                        success(event.target)
+                    } else {
+                        response.json().then(errorMessages => showError(JSON.stringify(errorMessages)))
+                    }
+                })
+                .catch((e) => {
+                   showError(e)
+                })
+        })
+
+        function handleErrors(response) {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response;
+        }
+
+        function showError(e){
+            alert(e)
+        }
+
+        function success(form){
+            form.reset()
+            alert("Data processed and saved!");
+        }
+    </script>
+</body>
+
+</html>

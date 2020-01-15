@@ -1,9 +1,13 @@
+import os
 import pathlib
 import yaml
 
 BASE_DIR = pathlib.Path(__file__).parent.parent
 CONFIG_PATH = BASE_DIR / 'config' / 'settings.yaml'
 TEMPLATES_DIR = str(BASE_DIR / 'templates')
+
+
+DEBUG = os.getenv('DEBUG', False)
 
 
 def get_config(path):

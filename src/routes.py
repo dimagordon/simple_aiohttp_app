@@ -12,7 +12,12 @@ def setup(app: web.Application):
         record_usecase=UserRecordUseCase(records, app)
     )
 
-    # mb need to move /api/v1/ to subapp
+    # I have some difficulties with jinja2 template rendering.
+    # So I decide to create rest api and add cors to local dev
+    # Need to read more about best practices of server rendering
+    # But for sure I understand why we could use
+    # if request.method == 'get':
+    #    ...
     app.router.add_post('/api/v1/submit-record/', record_handler.submit_data)
 
     if settings.DEBUG:

@@ -5,8 +5,8 @@ from json.decoder import JSONDecodeError
 from aiohttp import web
 from marshmallow import ValidationError
 
-
 from .schemas import user_record_schema
+from .utils import logger, prepare_validation_log_message
 
 
 class RecordHandler:
@@ -16,10 +16,14 @@ class RecordHandler:
 
     async def submit_data(self, request):
         try:
-            data = user_record_schema.load(await request.json())
+            request_data = await request.json()
         except JSONDecodeError:
             return web.json_response(status=HTTPStatus.BAD_REQUEST)
+
+        try:
+            data = user_record_schema.load(request_data)
         except ValidationError as e:
+            logger.warning(prepare_validation_log_message(request_data, e))
             return web.json_response(data=e.messages, status=HTTPStatus.BAD_REQUEST)
 
         # ensure that data will be saved even if client close connection.

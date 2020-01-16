@@ -1,18 +1,18 @@
 from aiohttp import web
 
 from .views import RecordHandler
-from .usecases import UserRecordUsecase
+from .usecases import UserRecordUseCase
 from .db import records
 from .utils import setup_cors
 from . import settings
 
 
 def setup(app: web.Application):
-    #  need remove handler init from here
     record_handler = RecordHandler(
-        record_usecase=UserRecordUsecase(records, app)
+        record_usecase=UserRecordUseCase(records, app)
     )
-    # app.router.add_get('/', record_handler.index)
+
+    # mb need to move /api/v1/ to subapp
     app.router.add_post('/api/v1/submit-record/', record_handler.submit_data)
 
     if settings.DEBUG:
